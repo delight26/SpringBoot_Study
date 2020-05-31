@@ -1,7 +1,14 @@
 package info.thecodinglive.config;
 
+import static springfox.documentation.builders.PathSelectors.regex;
+
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -10,7 +17,6 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.UiConfiguration;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-import static springfox.documentation.builders.PathSelectors.regex;
 
 @Configuration
 @EnableSwagger2
@@ -36,5 +42,30 @@ public class SwaggerConfig {
 				.paths(regex("/basic/.*"))
 				.build()
 				.apiInfo(metadata());
+	}
+	
+	@Bean
+	public HttpComponentsClientHttpRequestFactory getClientHttpRequestFactory() {
+		HttpComponentsClientHttpRequestFactory clienthttpRequestFactory =  new HttpComponentsClientHttpRequestFactory();
+		
+		clienthttpRequestFactory.setConnectionRequestTimeout(5000);
+		clienthttpRequestFactory.setReadTimeout(5000);
+		
+		return clienthttpRequestFactory;
+	}
+	
+	@Bean
+	public ClientHttpRequestFactory getRequestConfigHttpRequestFactory() {
+		RequestConfig config = RequestConfig.custom()
+				.setConnectTimeout(5000)
+				.setConnectionRequestTimeout(5000)
+				.setSocketTimeout(5000)
+				.build();
+		CloseableHttpClient httpClient = HttpClientBuilder
+				.create()
+				.setDefaultRequestConfig(config)
+				.build();
+		
+		return new HttpComponentsClientHttpRequestFactory(httpClient);
 	}
 }
