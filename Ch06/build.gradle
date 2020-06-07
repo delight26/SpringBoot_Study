@@ -1,0 +1,48 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.6.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+}
+
+group = 'Ch06'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile 'org.slf4j:slf4j-api:1.7.7'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	compile group: 'org.hibernate', name: 'hibernate-validator', version: '4.2.0.Final'
+	compile group: 'javax.el', name: 'javax.el-api', version: '3.0.0'
+	compile group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
+	runtime group: 'org.hsqldb', name: 'hsqldb', version:'2.3.2'
+	
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'mysql:mysql-connector-java'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	
+}
+
+
+test {
+	useJUnitPlatform()
+}
