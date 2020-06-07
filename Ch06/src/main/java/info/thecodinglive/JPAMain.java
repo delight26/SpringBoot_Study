@@ -6,7 +6,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import info.thecodinglive.model.UserEntity;
 import info.thecodinglive.model.UserRole;
-import info.thecodinglive.repository.UserRepository;
+import info.thecodinglive.querydsl.UserRepository;
 
 @SpringBootApplication
 public class JPAMain {

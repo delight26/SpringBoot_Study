@@ -1,5 +1,6 @@
 package info.thecodinglive.service;
 
+import java.util.HashSet;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -41,10 +42,27 @@ public class SchoolService {
 		for(Student s : students) {
 			System.out.println(s.getUserName() + ", " + s.getSchool().getName());
 		}
+	}
+	
+	@Transactional
+	public void findSchoolInfo() {
+		School sc1 = new School("예체능고");
+		sc1.registerStudent(new Student("홍길동"));
+		sc1.registerStudent(new Student("유재석"));
 		
-		for(Student s : students) {
+		School sc2 = new School("매력고");
+		sc2.registerStudent(new Student("나라"));
+		sc2.registerStudent(new Student("민하"));
+		
+		schoolRepository.saveAll(new HashSet<School>() {{
+			add(sc1);
+			add(sc2);
+		}});
+		
+		List<School> students = schoolRepository.findAll();
+		
+		for(School s : students) {
 			System.out.println(s.toString());
 		}
 	}
-	
 }
