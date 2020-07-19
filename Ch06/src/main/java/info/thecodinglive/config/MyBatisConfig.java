@@ -1,18 +1,24 @@
 package info.thecodinglive.config;
 
-import javax.sql.DataSource;
-
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 @Configuration
+@Import(MariaDBConnectionConfig.class)
+@ComponentScan(basePackages = {"info.thecodinglive.repository"})
 @MapperScan(basePackages = {"info.thecodinglive.repository"})
 public class MyBatisConfig {
+	
+	@Autowired
+	private MariaDBConnectionConfig mariaDBConfig;
 	
 	@Bean
 	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
@@ -20,10 +26,12 @@ public class MyBatisConfig {
 	}
 	
 	@Bean
-	public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception{
+//	public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception{
+	public SqlSessionFactory sqlSessionFactory() throws Exception{
 		
 		SqlSessionFactoryBean sqlsessionfactrBean = new SqlSessionFactoryBean();
-		sqlsessionfactrBean.setDataSource(dataSource);
+//		sqlsessionfactrBean.setDataSource(dataSource);
+		sqlsessionfactrBean.setDataSource(mariaDBConfig.dataSource());
 		sqlsessionfactrBean.setConfigLocation((new PathMatchingResourcePatternResolver().getResource("classpath:mybatis-config.xml")));
 		sqlsessionfactrBean.setMapperLocations((new PathMatchingResourcePatternResolver().getResources("classpath:sample/mapper/*.xml")));
 		return sqlsessionfactrBean.getObject();
