@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import info.thecodinglive.model.School;
 import info.thecodinglive.model.Student;
-import info.thecodinglive.repository.SchoolRepository;
-import info.thecodinglive.repository.StudentRepository;
+import info.thecodinglive.querydsl.SchoolRepository;
+import info.thecodinglive.querydsl.StudentRepository;
 
 @Service
 public class SchoolService {
