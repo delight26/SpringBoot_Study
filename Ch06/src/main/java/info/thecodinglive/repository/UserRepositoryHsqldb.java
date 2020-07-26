@@ -36,4 +36,8 @@ public class UserRepositoryHsqldb {
 		params.put("userName", userName);
 		return sqlSessionTemplate.selectOne(MAPPER_NAME_SPACE + "findByUserName", params);
 	}
+	
+	public List<HashMap<String, Object>> findByForeach(Map<String, Object> paraMap) {
+		return sqlSessionTemplate.selectList(MAPPER_NAME_SPACE + "findByUserName", paraMap);
+	}
 }

@@ -45,4 +45,5 @@ public class UserRepositoryImpl extends QuerydslRepositorySupport implements Use
 		QUserEntity qUserEntity = QUserEntity.userEntity;
 		return from(qUserEntity).select(qUserEntity.age.min()).fetchOne();
 	}
+	
 }
