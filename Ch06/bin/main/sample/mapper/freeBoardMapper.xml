@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sample.mapper.freeBoard">
+<!-- <![CDATA[]]> -->
+	<insert id="insertBoard">
+		<selectKey resultType="String" order="BEFORE" keyProperty="boardId">
+			SELECT
+			CONCAT('FB', DATE_FORMAT(NOW(), '%y%m%d%h%i%s')) AS BOARD_ID
+		</selectKey>
+		INSERT INTO FREE_BOARD(
+			BOARD_ID
+			, UNAME
+			, TITLE
+			, CATEGORY
+			, CONTENT
+			, WDATE
+			)
+		VALUES(
+			#{boardId}
+			, #{userName}
+			, #{title}
+			, #{category}
+			, #{content}
+			, now()
+		)
+	</insert>
+	<select id="FindbyUserId">
+		SELECT * FROM USER
+		WHERE DEL_YN = 'N'
+		<if test="userId != null">
+			AND USER_ID = #{userId}
+		</if>
+	</select>
+</mapper>
